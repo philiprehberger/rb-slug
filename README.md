@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/philiprehberger/rb-slug/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-slug/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-slug.svg)](https://rubygems.org/gems/philiprehberger-slug)
+[![License](https://img.shields.io/github/license/philiprehberger/rb-slug)](LICENSE)
 
 URL-friendly slug generator with Unicode transliteration, configurable separators, word-boundary truncation, and collision-aware uniqueness.
 
