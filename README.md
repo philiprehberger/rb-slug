@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-slug.svg)](https://rubygems.org/gems/philiprehberger-slug)
 [![License](https://img.shields.io/github/license/philiprehberger/rb-slug)](LICENSE)
 
-URL-friendly slug generator with Unicode transliteration, configurable separators, word-boundary truncation, and collision-aware uniqueness.
+URL-friendly slug generator with Unicode transliteration and collision-aware uniqueness
 
 ## Requirements
 
