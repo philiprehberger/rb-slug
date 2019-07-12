@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/rb-slug/actions/workflows/ci.yml/badge.svg)](https://github.com/philiprehberger/rb-slug/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/philiprehberger-slug.svg)](https://rubygems.org/gems/philiprehberger-slug)
 [![License](https://img.shields.io/github/license/philiprehberger/rb-slug)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 URL-friendly slug generator with Unicode transliteration and collision-aware uniqueness
 
@@ -85,4 +86,4 @@ bundle exec rubocop
 
 ## License
 
-MIT
+[MIT](LICENSE)
