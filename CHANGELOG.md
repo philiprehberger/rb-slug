@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-01
+
+### Added
+- `Slug.generate_batch(strings)` for batch slug generation with automatic deduplication
+- `custom_mapping:` parameter for custom character replacements in `generate`, `transliterate`, and `generate_batch`
+
 ## [0.1.11] - 2026-03-31
 
 ### Added

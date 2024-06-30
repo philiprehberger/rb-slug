@@ -10,19 +10,20 @@ module Philiprehberger
       # @param separator [String] the word separator
       # @param max [Integer, nil] maximum length
       # @param unique [Proc, nil] uniqueness checker
+      # @param custom_mapping [Hash, nil] custom character replacements
       # @return [String] the slug
       # @raise [Error] if input is not a string
-      def self.call(string, separator: '-', max: nil, unique: nil)
+      def self.call(string, separator: '-', max: nil, unique: nil, custom_mapping: nil)
         raise Error, "Input must be a String, got #{string.class}" unless string.is_a?(String)
 
-        slug = build_slug(string, separator)
+        slug = build_slug(string, separator, custom_mapping)
         slug = truncate_at_boundary(slug, max, separator) if max
         slug = ensure_unique(slug, separator, unique) if unique
         slug
       end
 
-      def self.build_slug(string, separator)
-        result = Transliterator.call(string)
+      def self.build_slug(string, separator, custom_mapping)
+        result = Transliterator.call(string, custom_mapping: custom_mapping)
         result = result.downcase
         result = result.gsub(/[^a-z0-9]+/, separator)
         result.gsub(/#{Regexp.escape(separator)}+/, separator).gsub(
