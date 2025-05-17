@@ -55,19 +55,22 @@ module Philiprehberger
         'ϊ' => 'i', 'ϋ' => 'y', 'ΐ' => 'i', 'ΰ' => 'y'
       }.freeze
 
+      MAPPING_REGEX = Regexp.union(MAPPING.keys).freeze
+
       # Transliterate Unicode characters to ASCII equivalents
       #
       # @param string [String] input string
+      # @param custom_mapping [Hash, nil] custom character replacements
       # @return [String] transliterated string
       def self.call(string, custom_mapping: nil)
-        mapping = custom_mapping ? MAPPING.merge(custom_mapping) : MAPPING
-        string.each_char.map { |char| mapping[char] || char }.join
+        if custom_mapping
+          merged = MAPPING.merge(custom_mapping)
+          regex = Regexp.union(merged.keys)
+          string.gsub(regex) { |match| merged[match] }
+        else
+          string.gsub(MAPPING_REGEX) { |match| MAPPING[match] }
+        end
       end
-
-      def self.mapping_regex
-        @mapping_regex ||= Regexp.union(MAPPING.keys)
-      end
-      private_class_method :mapping_regex
     end
   end
 end

@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-13
+
+### Added
+- `Slug.valid_slug?(string, separator:)` method for validating well-formed slugs
+- `Slug.humanize(slug, separator:, capitalize:)` method for converting slugs back to human-readable titles
+
+### Changed
+- Optimize transliteration with pre-compiled regex instead of char-by-char iteration
+- Remove unused `mapping_regex` private method from Transliterator
+- Tighten RuboCop metrics to match guide defaults
+
 ## [0.2.0] - 2026-04-01
 
 ### Added

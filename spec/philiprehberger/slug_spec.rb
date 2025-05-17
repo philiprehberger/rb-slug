@@ -198,4 +198,92 @@ RSpec.describe Philiprehberger::Slug do
       expect(result).to eq(%w[a-and-b c-and-d])
     end
   end
+
+  describe '.valid_slug?' do
+    it 'returns true for a valid slug' do
+      expect(described_class.valid_slug?('hello-world')).to be true
+    end
+
+    it 'returns true for a single word' do
+      expect(described_class.valid_slug?('hello')).to be true
+    end
+
+    it 'returns true with custom separator' do
+      expect(described_class.valid_slug?('hello_world', separator: '_')).to be true
+    end
+
+    it 'returns false for uppercase letters' do
+      expect(described_class.valid_slug?('Hello-World')).to be false
+    end
+
+    it 'returns false for leading separator' do
+      expect(described_class.valid_slug?('-hello')).to be false
+    end
+
+    it 'returns false for trailing separator' do
+      expect(described_class.valid_slug?('hello-')).to be false
+    end
+
+    it 'returns false for consecutive separators' do
+      expect(described_class.valid_slug?('hello--world')).to be false
+    end
+
+    it 'returns false for empty string' do
+      expect(described_class.valid_slug?('')).to be false
+    end
+
+    it 'returns false for spaces' do
+      expect(described_class.valid_slug?('hello world')).to be false
+    end
+
+    it 'returns false for non-String without raising' do
+      expect(described_class.valid_slug?(123)).to be false
+    end
+
+    it 'returns false for Unicode characters' do
+      expect(described_class.valid_slug?('café')).to be false
+    end
+
+    it 'returns true for numeric slug' do
+      expect(described_class.valid_slug?('123')).to be true
+    end
+  end
+
+  describe '.humanize' do
+    it 'converts a slug to title case' do
+      expect(described_class.humanize('hello-world')).to eq('Hello World')
+    end
+
+    it 'capitalizes a single word' do
+      expect(described_class.humanize('hello')).to eq('Hello')
+    end
+
+    it 'handles slugs with numbers' do
+      expect(described_class.humanize('product-123-review')).to eq('Product 123 Review')
+    end
+
+    it 'uses custom separator' do
+      expect(described_class.humanize('hello_world', separator: '_')).to eq('Hello World')
+    end
+
+    it 'capitalizes first word only with :first' do
+      expect(described_class.humanize('hello-beautiful-world', capitalize: :first)).to eq('Hello beautiful world')
+    end
+
+    it 'applies no capitalization with :none' do
+      expect(described_class.humanize('hello-world', capitalize: :none)).to eq('hello world')
+    end
+
+    it 'returns empty string for empty input' do
+      expect(described_class.humanize('')).to eq('')
+    end
+
+    it 'raises Error for non-String input' do
+      expect { described_class.humanize(123) }.to raise_error(described_class::Error)
+    end
+
+    it 'raises Error for unknown capitalize option' do
+      expect { described_class.humanize('hello', capitalize: :invalid) }.to raise_error(described_class::Error)
+    end
+  end
 end
