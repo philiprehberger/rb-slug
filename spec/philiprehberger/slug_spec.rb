@@ -286,4 +286,18 @@ RSpec.describe Philiprehberger::Slug do
       expect { described_class.humanize('hello', capitalize: :invalid) }.to raise_error(described_class::Error)
     end
   end
+
+  describe '.parameterize' do
+    it 'generates a slug like generate' do
+      expect(described_class.parameterize('Hello World!')).to eq('hello-world')
+    end
+
+    it 'respects custom separator' do
+      expect(described_class.parameterize('Hello World', separator: '_')).to eq('hello_world')
+    end
+
+    it 'truncates with max at word boundary' do
+      expect(described_class.parameterize('Hello Beautiful World', max: 16)).to eq('hello-beautiful')
+    end
+  end
 end
