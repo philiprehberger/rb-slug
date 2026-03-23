@@ -82,6 +82,50 @@ RSpec.describe Philiprehberger::Slug do
     end
   end
 
+  describe 'extended edge cases' do
+    it 'handles numbers in input' do
+      expect(described_class.generate('Product 123')).to eq('product-123')
+    end
+
+    it 'handles mixed case with numbers' do
+      expect(described_class.generate('iPhone 15 Pro Max')).to eq('iphone-15-pro-max')
+    end
+
+    it 'handles tab and newline whitespace' do
+      expect(described_class.generate("hello\tworld\nfoo")).to eq('hello-world-foo')
+    end
+
+    it 'handles max length exactly at word boundary' do
+      expect(described_class.generate('hello world', max: 11)).to eq('hello-world')
+    end
+
+    it 'handles max length cutting mid-word' do
+      expect(described_class.generate('hello world', max: 8)).to eq('hello')
+    end
+
+    it 'handles uniqueness with custom separator' do
+      existing = ['hello_world']
+      result = described_class.generate('Hello World', separator: '_', unique: ->(s) { existing.include?(s) })
+      expect(result).to eq('hello_world_2')
+    end
+
+    it 'handles Cyrillic full sentence' do
+      expect(described_class.generate('Москва столица России')).to eq('moskva-stolitsa-rossii')
+    end
+
+    it 'handles Polish diacritics' do
+      expect(described_class.generate('Łódź')).to eq('lodz')
+    end
+
+    it 'handles Czech diacritics' do
+      expect(described_class.generate('Příliš žluťoučký')).to eq('prilis-zlutoucky')
+    end
+
+    it 'handles Turkish characters' do
+      expect(described_class.generate('İstanbul Şehri')).to eq('istanbul-sehri')
+    end
+  end
+
   describe '.transliterate' do
     it 'transliterates accented characters' do
       expect(described_class.transliterate('café')).to eq('cafe')
@@ -93,6 +137,18 @@ RSpec.describe Philiprehberger::Slug do
 
     it 'leaves ASCII unchanged' do
       expect(described_class.transliterate('hello')).to eq('hello')
+    end
+
+    it 'transliterates Scandinavian characters' do
+      expect(described_class.transliterate('Ångström')).to eq('Angstrom')
+    end
+
+    it 'transliterates French ligatures' do
+      expect(described_class.transliterate('cœur')).to eq('coeur')
+    end
+
+    it 'transliterates Greek characters' do
+      expect(described_class.transliterate('Ωmega')).to eq('Omega')
     end
   end
 end
