@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Philip Rehberger']
   spec.email         = ['me@philiprehberger.com']
 
-  spec.summary       = 'URL-friendly slug generator with Unicode transliteration'
+  spec.summary       = 'URL-friendly slug generator with Unicode transliteration and collision-aware uniqueness'
   spec.description   = 'Generate URL-safe slugs from any string with built-in Unicode transliteration, ' \
                        'configurable separators, word-boundary truncation, and collision-aware uniqueness.'
   spec.homepage      = 'https://github.com/philiprehberger/rb-slug'
