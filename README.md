@@ -67,8 +67,13 @@ Philiprehberger::Slug.transliterate("café résumé")  # => "cafe resume"
 
 | Method | Description |
 |--------|-------------|
-| `Slug.generate(string, separator: "-", max: nil, unique: nil)` | Generate a URL-safe slug |
-| `Slug.transliterate(string)` | Unicode to ASCII transliteration |
+| `Slug.generate(string, separator: "-", max: nil, unique: nil)` | Generate a URL-safe slug from any string |
+| `Slug.transliterate(string)` | Transliterate Unicode characters to ASCII equivalents |
+| `Slug::Generator.call(string, separator: "-", max: nil, unique: nil)` | Core slug generation logic (called by `Slug.generate`) |
+| `Slug::Transliterator.call(string)` | Core transliteration logic (called by `Slug.transliterate`) |
+| `Slug::Transliterator::MAPPING` | Frozen hash of Unicode to ASCII character mappings |
+| `Slug::Error` | Error raised for invalid input (e.g. non-String argument) |
+| `Slug::VERSION` | Current gem version string |
 
 ## Development
 
