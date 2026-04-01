@@ -59,8 +59,9 @@ module Philiprehberger
       #
       # @param string [String] input string
       # @return [String] transliterated string
-      def self.call(string)
-        string.gsub(mapping_regex) { |char| MAPPING[char] }
+      def self.call(string, custom_mapping: nil)
+        mapping = custom_mapping ? MAPPING.merge(custom_mapping) : MAPPING
+        string.each_char.map { |char| mapping[char] || char }.join
       end
 
       def self.mapping_regex

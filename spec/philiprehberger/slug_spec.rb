@@ -151,4 +151,51 @@ RSpec.describe Philiprehberger::Slug do
       expect(described_class.transliterate('Ωmega')).to eq('Omega')
     end
   end
+
+  describe '.generate_batch' do
+    it 'generates unique slugs for duplicate inputs' do
+      result = described_class.generate_batch(%w[Hello Hello Hello])
+      expect(result).to eq(%w[hello hello-2 hello-3])
+    end
+
+    it 'handles mixed inputs' do
+      result = described_class.generate_batch(['Hello World', 'Goodbye', 'Hello World'])
+      expect(result).to eq(%w[hello-world goodbye hello-world-2])
+    end
+
+    it 'respects max length' do
+      result = described_class.generate_batch(['Hello Beautiful World', 'Another Long Title'], max: 15)
+      expect(result[0]).to eq('hello-beautiful')
+    end
+
+    it 'raises Error for non-array input' do
+      expect { described_class.generate_batch('not an array') }.to raise_error(described_class::Error)
+    end
+
+    it 'returns empty array for empty input' do
+      expect(described_class.generate_batch([])).to eq([])
+    end
+  end
+
+  describe 'custom_mapping' do
+    it 'applies custom character replacements' do
+      result = described_class.generate('Hello & World', custom_mapping: { '&' => 'and' })
+      expect(result).to eq('hello-and-world')
+    end
+
+    it 'overrides default transliteration mapping' do
+      result = described_class.generate('Straße', custom_mapping: { 'ß' => 'sz' })
+      expect(result).to eq('strasze')
+    end
+
+    it 'works with transliterate method' do
+      result = described_class.transliterate('A & B', custom_mapping: { '&' => 'and' })
+      expect(result).to eq('A and B')
+    end
+
+    it 'works with generate_batch' do
+      result = described_class.generate_batch(['A & B', 'C & D'], custom_mapping: { '&' => 'and' })
+      expect(result).to eq(%w[a-and-b c-and-d])
+    end
+  end
 end

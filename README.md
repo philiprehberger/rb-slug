@@ -57,6 +57,27 @@ Philiprehberger::Slug.generate("My Post", unique: ->(s) { Post.exists?(slug: s) 
 # => "my-post" or "my-post-2" if "my-post" exists
 ```
 
+### Batch Generation
+
+Generate unique slugs for multiple strings with automatic deduplication:
+
+```ruby
+Philiprehberger::Slug.generate_batch(%w[Hello Hello Hello])
+# => ["hello", "hello-2", "hello-3"]
+
+Philiprehberger::Slug.generate_batch(["My Post", "Another Post", "My Post"])
+# => ["my-post", "another-post", "my-post-2"]
+```
+
+### Custom Character Mapping
+
+Override or extend the default transliteration with custom character replacements:
+
+```ruby
+Philiprehberger::Slug.generate("Hello & World", custom_mapping: { "&" => "and" })
+# => "hello-and-world"
+```
+
 ### Transliteration
 
 ```ruby
@@ -68,6 +89,7 @@ Philiprehberger::Slug.transliterate("café résumé")  # => "cafe resume"
 | Method | Description |
 |--------|-------------|
 | `Slug.generate(string, separator: "-", max: nil, unique: nil)` | Generate a URL-safe slug from any string |
+| `Slug.generate_batch(strings, separator:, max:, custom_mapping:)` | Generate unique slugs for an array of strings with deduplication |
 | `Slug.transliterate(string)` | Transliterate Unicode characters to ASCII equivalents |
 | `Slug::Generator.call(string, separator: "-", max: nil, unique: nil)` | Core slug generation logic (called by `Slug.generate`) |
 | `Slug::Transliterator.call(string)` | Core transliteration logic (called by `Slug.transliterate`) |
