@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'URL-friendly slug generator with Unicode transliteration and collision-aware uniqueness'
   spec.description = 'Generate URL-safe slugs from any string with built-in Unicode transliteration, ' \
-                       'configurable separators, word-boundary truncation, and collision-aware uniqueness.'
+                     'configurable separators, word-boundary truncation, and collision-aware uniqueness.'
   spec.homepage = 'https://philiprehberger.com/open-source-packages/ruby/philiprehberger-slug'
   spec.license = 'MIT'
 
