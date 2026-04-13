@@ -78,6 +78,26 @@ Philiprehberger::Slug.generate("Hello & World", custom_mapping: { "&" => "and" }
 # => "hello-and-world"
 ```
 
+### Validation
+
+Check whether a string is already a well-formed slug:
+
+```ruby
+Philiprehberger::Slug.valid_slug?("hello-world")   # => true
+Philiprehberger::Slug.valid_slug?("Hello World")    # => false
+Philiprehberger::Slug.valid_slug?("hello--world")   # => false
+```
+
+### Humanize
+
+Convert a slug back to a human-readable title:
+
+```ruby
+Philiprehberger::Slug.humanize("hello-world")                       # => "Hello World"
+Philiprehberger::Slug.humanize("hello-world", capitalize: :first)   # => "Hello world"
+Philiprehberger::Slug.humanize("hello_world", separator: "_")       # => "Hello World"
+```
+
 ### Transliteration
 
 ```ruby
@@ -88,12 +108,11 @@ Philiprehberger::Slug.transliterate("café résumé")  # => "cafe resume"
 
 | Method | Description |
 |--------|-------------|
-| `Slug.generate(string, separator: "-", max: nil, unique: nil)` | Generate a URL-safe slug from any string |
+| `Slug.generate(string, separator:, max:, unique:, custom_mapping:)` | Generate a URL-safe slug from any string |
 | `Slug.generate_batch(strings, separator:, max:, custom_mapping:)` | Generate unique slugs for an array of strings with deduplication |
-| `Slug.transliterate(string)` | Transliterate Unicode characters to ASCII equivalents |
-| `Slug::Generator.call(string, separator: "-", max: nil, unique: nil)` | Core slug generation logic (called by `Slug.generate`) |
-| `Slug::Transliterator.call(string)` | Core transliteration logic (called by `Slug.transliterate`) |
-| `Slug::Transliterator::MAPPING` | Frozen hash of Unicode to ASCII character mappings |
+| `Slug.valid_slug?(string, separator:)` | Check whether a string is a well-formed slug |
+| `Slug.humanize(slug, separator:, capitalize:)` | Convert a slug back to a human-readable title |
+| `Slug.transliterate(string, custom_mapping:)` | Transliterate Unicode characters to ASCII equivalents |
 | `Slug::Error` | Error raised for invalid input (e.g. non-String argument) |
 | `Slug::VERSION` | Current gem version string |
 

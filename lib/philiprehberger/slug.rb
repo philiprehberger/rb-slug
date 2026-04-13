@@ -52,5 +52,38 @@ module Philiprehberger
     def self.transliterate(string, custom_mapping: nil)
       Transliterator.call(string, custom_mapping: custom_mapping)
     end
+
+    # Check whether a string is a well-formed slug
+    #
+    # @param string [String] the string to validate
+    # @param separator [String] the allowed separator character (default: "-")
+    # @return [Boolean] true if the string is a valid slug
+    def self.valid_slug?(string, separator: '-')
+      return false unless string.is_a?(String)
+      return false if string.empty?
+
+      sep = Regexp.escape(separator)
+      string.match?(/\A[a-z0-9]+(?:#{sep}[a-z0-9]+)*\z/)
+    end
+
+    # Convert a slug back to a human-readable title
+    #
+    # @param slug [String] the slug to humanize
+    # @param separator [String] the separator used in the slug (default: "-")
+    # @param capitalize [Symbol] capitalization strategy: :words, :first, or :none
+    # @return [String] the human-readable string
+    # @raise [Error] if input is not a String
+    def self.humanize(slug, separator: '-', capitalize: :words)
+      raise Error, "Input must be a String, got #{slug.class}" unless slug.is_a?(String)
+      return '' if slug.empty?
+
+      result = slug.gsub(separator, ' ')
+      case capitalize
+      when :words then result.gsub(/\b[a-z]/, &:upcase)
+      when :first then result.sub(/\A[a-z]/, &:upcase)
+      when :none then result
+      else raise Error, "Unknown capitalize option: #{capitalize}"
+      end
+    end
   end
 end
