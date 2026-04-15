@@ -21,6 +21,18 @@ module Philiprehberger
       Generator.call(string, separator: separator, max: max, unique: unique, custom_mapping: custom_mapping)
     end
 
+    # Rails-compatible alias for `generate` for callers familiar with
+    # `ActiveSupport::Inflector#parameterize`.
+    #
+    # @param string [String] the input string
+    # @param separator [String] the separator character
+    # @param max [Integer, nil] maximum length, truncated at word boundary
+    # @param custom_mapping [Hash, nil] custom character replacements
+    # @return [String] the generated slug
+    def self.parameterize(string, separator: '-', max: nil, custom_mapping: nil)
+      generate(string, separator: separator, max: max, custom_mapping: custom_mapping)
+    end
+
     # Generate unique slugs for an array of strings with automatic deduplication
     #
     # @param strings [Array<String>] the input strings

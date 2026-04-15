@@ -104,11 +104,20 @@ Philiprehberger::Slug.humanize("hello_world", separator: "_")       # => "Hello 
 Philiprehberger::Slug.transliterate("café résumé")  # => "cafe resume"
 ```
 
+### Rails-compatible Alias
+
+For callers familiar with `ActiveSupport::Inflector#parameterize`:
+
+```ruby
+Philiprehberger::Slug.parameterize("Hello World!")  # => "hello-world"
+```
+
 ## API
 
 | Method | Description |
 |--------|-------------|
 | `Slug.generate(string, separator:, max:, unique:, custom_mapping:)` | Generate a URL-safe slug from any string |
+| `Slug.parameterize(string, separator:, max:, custom_mapping:)` | Rails-compatible alias for `generate` |
 | `Slug.generate_batch(strings, separator:, max:, custom_mapping:)` | Generate unique slugs for an array of strings with deduplication |
 | `Slug.valid_slug?(string, separator:)` | Check whether a string is a well-formed slug |
 | `Slug.humanize(slug, separator:, capitalize:)` | Convert a slug back to a human-readable title |
