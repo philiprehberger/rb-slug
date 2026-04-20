@@ -287,6 +287,40 @@ RSpec.describe Philiprehberger::Slug do
     end
   end
 
+  describe '.detect_separator' do
+    it 'returns :dash for a dash-separated string' do
+      expect(described_class.detect_separator('foo-bar-baz')).to eq(:dash)
+    end
+
+    it 'returns :underscore for an underscore-separated string' do
+      expect(described_class.detect_separator('foo_bar_baz')).to eq(:underscore)
+    end
+
+    it 'returns nil for a plain string with no separators' do
+      expect(described_class.detect_separator('plain')).to be_nil
+    end
+
+    it 'returns nil for an empty string' do
+      expect(described_class.detect_separator('')).to be_nil
+    end
+
+    it 'returns nil for nil input' do
+      expect(described_class.detect_separator(nil)).to be_nil
+    end
+
+    it 'returns nil for non-String input' do
+      expect(described_class.detect_separator(123)).to be_nil
+    end
+
+    it 'returns :dash when dashes outnumber underscores' do
+      expect(described_class.detect_separator('a-b_c-d')).to eq(:dash)
+    end
+
+    it 'returns :underscore when underscores outnumber dashes' do
+      expect(described_class.detect_separator('a_b_c-d')).to eq(:underscore)
+    end
+  end
+
   describe '.parameterize' do
     it 'generates a slug like generate' do
       expect(described_class.parameterize('Hello World!')).to eq('hello-world')
