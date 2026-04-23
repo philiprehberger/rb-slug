@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-04-19
+
+### Added
+- `Slug.detect_separator(str)` — returns `:dash`, `:underscore`, or `nil` based on separator frequency; useful for auto-detecting separator before calling `humanize`/`valid_slug?`
+
 ## [0.4.0] - 2026-04-15
 
 ### Added

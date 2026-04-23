@@ -78,6 +78,25 @@ module Philiprehberger
       string.match?(/\A[a-z0-9]+(?:#{sep}[a-z0-9]+)*\z/)
     end
 
+    # Detect the dominant separator character in a string
+    #
+    # Counts dashes and underscores and returns whichever appears more often.
+    # On a tie (at least one of each), returns `:dash` to favor the Rails default.
+    # Returns `nil` when neither separator is present or when input is not a String.
+    #
+    # @param str [String] the input string to inspect
+    # @return [Symbol, nil] `:dash`, `:underscore`, or `nil`
+    def self.detect_separator(str)
+      return nil unless str.is_a?(String)
+
+      dashes = str.count('-')
+      unders = str.count('_')
+      return nil if dashes.zero? && unders.zero?
+      return :dash if dashes >= unders
+
+      :underscore
+    end
+
     # Convert a slug back to a human-readable title
     #
     # @param slug [String] the slug to humanize
