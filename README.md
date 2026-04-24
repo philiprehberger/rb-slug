@@ -98,6 +98,17 @@ Philiprehberger::Slug.humanize("hello-world", capitalize: :first)   # => "Hello 
 Philiprehberger::Slug.humanize("hello_world", separator: "_")       # => "Hello World"
 ```
 
+### Join
+
+Combine pre-slugged parts into one slug, collapsing duplicate separators:
+
+```ruby
+Philiprehberger::Slug.join("user", "jane-doe", "42")       # => "user-jane-doe-42"
+Philiprehberger::Slug.join("-foo-", "-bar-")               # => "foo-bar"
+Philiprehberger::Slug.join("foo", nil, "", "bar")          # => "foo-bar"
+Philiprehberger::Slug.join("a", "b", "c", separator: "_")  # => "a_b_c"
+```
+
 ### Detect separator
 
 ```ruby
@@ -129,6 +140,7 @@ Philiprehberger::Slug.parameterize("Hello World!")  # => "hello-world"
 | `Slug.generate_batch(strings, separator:, max:, custom_mapping:)` | Generate unique slugs for an array of strings with deduplication |
 | `Slug.valid_slug?(string, separator:)` | Check whether a string is a well-formed slug |
 | `Slug.humanize(slug, separator:, capitalize:)` | Convert a slug back to a human-readable title |
+| `Slug.join(*parts, separator:)` | Join slug parts into one slug, collapsing duplicate separators |
 | `Slug.detect_separator(string)` | Detect the dominant separator (`:dash`, `:underscore`, or `nil`) in a string |
 | `Slug.transliterate(string, custom_mapping:)` | Transliterate Unicode characters to ASCII equivalents |
 | `Slug::Error` | Error raised for invalid input (e.g. non-String argument) |

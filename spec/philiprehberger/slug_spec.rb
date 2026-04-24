@@ -334,4 +334,34 @@ RSpec.describe Philiprehberger::Slug do
       expect(described_class.parameterize('Hello Beautiful World', max: 16)).to eq('hello-beautiful')
     end
   end
+
+  describe '.join' do
+    it 'joins multiple slug parts with the default separator' do
+      expect(described_class.join('user', 'jane-doe', '42')).to eq('user-jane-doe-42')
+    end
+
+    it 'collapses duplicate separators introduced by the caller' do
+      expect(described_class.join('user-', '-jane-doe-', '42')).to eq('user-jane-doe-42')
+    end
+
+    it 'trims leading and trailing separators from the result' do
+      expect(described_class.join('-foo', 'bar-')).to eq('foo-bar')
+    end
+
+    it 'skips nil and empty parts' do
+      expect(described_class.join('foo', nil, '', 'bar')).to eq('foo-bar')
+    end
+
+    it 'honors a custom separator' do
+      expect(described_class.join('foo', 'bar', 'baz', separator: '_')).to eq('foo_bar_baz')
+    end
+
+    it 'raises Error on non-String parts' do
+      expect { described_class.join('foo', 42) }.to raise_error(Philiprehberger::Slug::Error)
+    end
+
+    it 'returns an empty string when all parts are empty or nil' do
+      expect(described_class.join(nil, '', nil)).to eq('')
+    end
+  end
 end

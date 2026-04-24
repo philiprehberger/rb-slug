@@ -97,6 +97,27 @@ module Philiprehberger
       :underscore
     end
 
+    # Join multiple pre-slugged parts into one slug.
+    #
+    # Collapses duplicate separators and trims leading/trailing separators so that
+    # `Slug.join("user-", "-jane-doe-", "42")` produces `"user-jane-doe-42"`. Nil
+    # and empty parts are skipped. Non-String parts raise `Error`.
+    #
+    # @param parts [Array<String>] slug parts to join
+    # @param separator [String] the separator character (default: "-")
+    # @return [String] the combined slug
+    # @raise [Error] if any part is not a String (nil and empty are skipped)
+    def self.join(*parts, separator: '-')
+      pieces = parts.reject { |p| p.nil? || (p.respond_to?(:empty?) && p.empty?) }
+      pieces.each do |p|
+        raise Error, "Parts must be Strings, got #{p.class}" unless p.is_a?(String)
+      end
+
+      combined = pieces.join(separator)
+      sep = Regexp.escape(separator)
+      combined.gsub(/#{sep}+/, separator).gsub(/\A#{sep}|#{sep}\z/, '')
+    end
+
     # Convert a slug back to a human-readable title
     #
     # @param slug [String] the slug to humanize

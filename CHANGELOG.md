@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-04-24
+
+### Added
+- `Slug.join(*parts, separator: '-')` — joins multiple slug parts into one slug, collapsing duplicate separators and trimming leading/trailing separators; nil and empty parts are skipped
+
 ## [0.5.0] - 2026-04-19
 
 ### Added
