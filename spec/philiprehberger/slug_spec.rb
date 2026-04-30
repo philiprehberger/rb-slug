@@ -364,4 +364,40 @@ RSpec.describe Philiprehberger::Slug do
       expect(described_class.join(nil, '', nil)).to eq('')
     end
   end
+
+  describe '.swap_separator' do
+    it 'swaps dashes for underscores' do
+      expect(described_class.swap_separator('hello-world-foo', from: '-', to: '_')).to eq('hello_world_foo')
+    end
+
+    it 'swaps underscores for dashes' do
+      expect(described_class.swap_separator('hello_world_foo', from: '_', to: '-')).to eq('hello-world-foo')
+    end
+
+    it 'is a no-op when from is absent' do
+      expect(described_class.swap_separator('plain-slug', from: '_', to: '-')).to eq('plain-slug')
+    end
+
+    it 'collapses duplicates introduced by the swap' do
+      expect(described_class.swap_separator('a--b---c', from: '-', to: '_')).to eq('a_b_c')
+    end
+
+    it 'trims leading and trailing separators from the result' do
+      expect(described_class.swap_separator('-foo-', from: '-', to: '_')).to eq('foo')
+    end
+
+    it 'raises Error when slug is not a String' do
+      expect { described_class.swap_separator(42, from: '-', to: '_') }.to raise_error(Philiprehberger::Slug::Error)
+    end
+
+    it 'raises Error when `from` is not a single character' do
+      expect { described_class.swap_separator('foo-bar', from: '--', to: '_') }
+        .to raise_error(Philiprehberger::Slug::Error, /from/)
+    end
+
+    it 'raises Error when `to` is not a single character' do
+      expect { described_class.swap_separator('foo-bar', from: '-', to: '') }
+        .to raise_error(Philiprehberger::Slug::Error, /to/)
+    end
+  end
 end

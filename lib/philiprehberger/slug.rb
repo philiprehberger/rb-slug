@@ -118,6 +118,29 @@ module Philiprehberger
       combined.gsub(/#{sep}+/, separator).gsub(/\A#{sep}|#{sep}\z/, '')
     end
 
+    # Replace separator characters in an existing slug.
+    #
+    # Substitutes every occurrence of `from` with `to`, then collapses any
+    # runs of `to` introduced by the swap and trims leading/trailing
+    # separators — matching the invariants enforced by {.generate} and
+    # {.join}. Pairs with {.detect_separator}.
+    #
+    # @param slug [String] the slug to transform
+    # @param from [String] the separator currently in use (single character)
+    # @param to [String] the separator to switch to (single character)
+    # @return [String] the transformed slug
+    # @raise [Error] when `slug` is not a String, or when `from` or `to` is
+    #   not a single-character String
+    def self.swap_separator(slug, from:, to:)
+      raise Error, "Input must be a String, got #{slug.class}" unless slug.is_a?(String)
+      raise Error, '`from` must be a single-character String' unless from.is_a?(String) && from.length == 1
+      raise Error, '`to` must be a single-character String' unless to.is_a?(String) && to.length == 1
+
+      swapped = slug.tr(from, to)
+      to_re = Regexp.escape(to)
+      swapped.gsub(/#{to_re}+/, to).gsub(/\A#{to_re}|#{to_re}\z/, '')
+    end
+
     # Convert a slug back to a human-readable title
     #
     # @param slug [String] the slug to humanize

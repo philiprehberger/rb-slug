@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-04-30
+
+### Added
+- `Slug.swap_separator(slug, from:, to:)` — replace separator characters in an existing slug, collapsing duplicates introduced by the swap and trimming leading/trailing separators. Pairs with `detect_separator`.
+
 ## [0.6.0] - 2026-04-24
 
 ### Added

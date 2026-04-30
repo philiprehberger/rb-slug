@@ -117,6 +117,20 @@ Philiprehberger::Slug.detect_separator("hello_world") # => :underscore
 Philiprehberger::Slug.detect_separator("plain")       # => nil
 ```
 
+### Swap separator
+
+Replace separator characters in an existing slug, collapsing any duplicates
+introduced by the swap and trimming leading/trailing separators. Pairs with
+`detect_separator`.
+
+```ruby
+Philiprehberger::Slug.swap_separator("hello-world-foo", from: "-", to: "_")
+# => "hello_world_foo"
+
+Philiprehberger::Slug.swap_separator("a--b---c", from: "-", to: "_")
+# => "a_b_c"
+```
+
 ### Transliteration
 
 ```ruby
@@ -142,6 +156,7 @@ Philiprehberger::Slug.parameterize("Hello World!")  # => "hello-world"
 | `Slug.humanize(slug, separator:, capitalize:)` | Convert a slug back to a human-readable title |
 | `Slug.join(*parts, separator:)` | Join slug parts into one slug, collapsing duplicate separators |
 | `Slug.detect_separator(string)` | Detect the dominant separator (`:dash`, `:underscore`, or `nil`) in a string |
+| `Slug.swap_separator(slug, from:, to:)` | Replace `from` separator with `to` in a slug, collapsing duplicates and trimming edges |
 | `Slug.transliterate(string, custom_mapping:)` | Transliterate Unicode characters to ASCII equivalents |
 | `Slug::Error` | Error raised for invalid input (e.g. non-String argument) |
 | `Slug::VERSION` | Current gem version string |
